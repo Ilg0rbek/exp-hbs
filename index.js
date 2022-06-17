@@ -19,6 +19,11 @@ app.set('view engine', '.hbs');
 //middleware 
 app.use(express.static(path.join('public')))
 
+
+//body parser
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
 const PORT = process.env.PORT || 4000
 
 //initilaize routes
