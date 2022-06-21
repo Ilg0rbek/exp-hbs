@@ -16,7 +16,15 @@ const getAllPosters = async () => {
     return posters = JSON.parse(data())
 }
 
+const getPosterById = async (id) => {
+    const data = () => fs.readFileSync(path.join(__dirname, 'db.json'), 'utf8')
+    const posters = JSON.parse(data())
+    const poster = posters.find(v => v.id === id)
+    return poster
+}
+
 module.exports = {
     addNewPosterToDB,
-    getAllPosters
+    getAllPosters,
+    getPosterById
 }

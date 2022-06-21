@@ -1,5 +1,5 @@
 const { v4 } = require('uuid')
-const { addNewPosterToDB, getAllPosters } = require('../db/posters')
+const { addNewPosterToDB, getAllPosters, getPosterById } = require('../db/posters')
 
 //@route    GET  /posters
 //@desc     Get posters page
@@ -37,8 +37,18 @@ const addNewPoster = async (req, res) => {
     res.redirect('/')
 }
 
+const getOnePoster = async (req, res) => {
+    const poster = await getPosterById(req.params.id)
+    res.render('poster/one', {
+        title: poster.title,
+        url: process.env.url,
+        poster
+    })
+}
+
 module.exports = {
     getPostersPage,
     addNewPosterPage,
-    addNewPoster
+    addNewPoster,
+    getOnePoster
 }
