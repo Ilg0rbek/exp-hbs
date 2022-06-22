@@ -24,7 +24,7 @@
                         <h3 class="poster-page-title">{{poster.title}}</h3>
                         <h1 class="poster-page-amount mb-5">{{poster.amount}} SO'M</h1>
                         <h5>Tavsif</h5>
-                        <p>{{poster.describe}}</p>
+                        <p>{{poster.description}}</p>
                         <hr>
                         <div class="d-flex justify-content-between">
                            <p>ID: {{poster.id}}</p>
@@ -54,8 +54,12 @@
                   </div>
                   <a href="#" type="button" class="btn btn-outline-secondary">+998911234567</a>
                   <a href="#" type="button" class="btn mt-3 btn-success">Muallifning boshqa e'lonlari</a>
-                  <a href="#" type="button" class="btn mt-3 btn-warning">E`loni o`zgartirish</a>
-                  <a href="/poster/{{poster.id}}" type="button" class="btn mt-3 btn-danger">E'lonni o`chirish</a>
+                  <a href="/posters/{{poster.id}}/edit" type="button" class="btn mt-3 btn-warning">E`loni
+                     o`zgartirish</a>
+                  <form action="/posters/{{poster.id}}/delete" method="post">
+                     <button  type="submit" class="btn mt-3 btn-danger form-control">E'lonni
+                        o`chirish</button>
+                  </form>
                </div>
             </div>
          </div>

@@ -1,10 +1,1 @@
-[
-    {
-        "id": "e0c3043a-2557-4d28-9bbf-5590c7af61b6",
-        "title": "Apple",
-        "amount": "500000",
-        "region": "Andijon",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqFOnmObxC_NvvJVdkU_zlYo9EUgK0sx_AEAt4cQC5A-pSvHv4VDsGYzeDR9OXKXduAi0&usqp=CAU",
-        "describe": "Juda zo`r noutbuk"
-    }
-]
+[{"id":"e0c3043a-2557-4d28-9bbf-5590c7af61b6","title":"Apple","amount":"500000","region":"Hududni tanlang","image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqFOnmObxC_NvvJVdkU_zlYo9EUgK0sx_AEAt4cQC5A-pSvHv4VDsGYzeDR9OXKXduAi0&usqp=CAU","description":"Juda zo`r noutbuk menga jjuda yoqdi"}]
