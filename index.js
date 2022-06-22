@@ -5,6 +5,7 @@ const path = require('path');
 const homeRoutes = require('./routes/homeRoutes')
 const postersRoutes = require('./routes/posterRoutes')
 const connectDB = require('./config/db')
+
 //config dotenv 
 dotenv.config()
 
