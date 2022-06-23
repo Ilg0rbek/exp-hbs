@@ -35,12 +35,12 @@ const addNewPosterPage = (req, res) => {
 //@access   Public
 const addNewPoster = async (req, res) => {
     try {
-        console.log(req.file)
         const poster = {
             title: req.body.title,
             amount: req.body.amount,
             region: req.body.region,
-            description: req.body.description
+            description: req.body.description,
+            image: 'uploads/' + req.file.filename
         }
         // await addNewPosterToDB(poster)
         await Poster.create(poster)
@@ -57,7 +57,7 @@ const addNewPoster = async (req, res) => {
 const getOnePoster = async (req, res) => {
     try {
         // const poster = await getPosterById(req.params.id)
-        const poster = await Poster.findById(req.params.id).lean()
+        const poster = await Poster.findByIdAndUpdate(req.params.id, { $inc: { visits: 1 } }, { new: true }).lean()
         res.render('poster/one', {
             title: poster.title,
             url: process.env.url,

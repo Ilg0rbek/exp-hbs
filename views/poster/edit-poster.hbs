@@ -1,13 +1,14 @@
+<script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
 <div class="container mtt">
     <div class="row">
         <div class="col-lg-12">
             <div class="card p-4 mb-5">
                 {{#if poster}}
-                      <form action="/posters/{{poster._id}}/edit" method="post">
+                <form action="/posters/{{poster._id}}/edit" method="post">
                     <div class="mb-3">
                         <label for="title" class="form-label">E'lon sarlavhasi</label>
-                        <input type="text" value="{{poster.title}}" name="title" class="form-control" placeholder="Noutbuk Acer"
-                            id="email">
+                        <input type="text" value="{{poster.title}}" name="title" class="form-control"
+                            placeholder="Noutbuk Acer" id="email">
                     </div>
                     <div class="mb-3">
                         <label for="amount" class="form-label">Narxi (so'mda)</label>
@@ -32,13 +33,16 @@
                             <option value="Nukus">Nukus</option>
                         </select>
                     </div>
-                    <div class="mb-3">
+                   <div class="mb-3">
                         <label for="image" class="form-label">Rasm tanlang</label>
-                        <input class="form-control" value="{{poster.image}}" type="text" name="image" id="image">
+                        <input class="form-control" type="file" name="image" id="image">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Tarif</label>
-                        <textarea name="description">{{poster.description}}</textarea>
+                        <textarea name="description" id="description">{{poster.description}}</textarea>
+                        <script>
+                            CKEDITOR.replace('description');
+                        </script>
                     </div>
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">O`zgartrish</button>
