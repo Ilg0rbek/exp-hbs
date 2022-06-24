@@ -5,20 +5,24 @@ const bcrypt = require('bcryptjs')
 //@desc     Get login page
 //access    Public
 const getLoginPage = (req, res) => {
-    res.render('auth/login', {
-        title: "Login",
-        url: process.env.url
-    })
+    if (!req.session.isLogged) {
+        res.render('auth/login', {
+            title: "Login",
+            url: process.env.url
+        })
+    }
 }
 
 //@route    GET  /auth/register 
 //@desc     Get register page
 //access    Public
 const getRegisterPage = (req, res) => {
-    res.render('auth/signup', {
-        title: "Registratsiya",
-        url: process.env.url
-    })
+    if (!req.session.isLogged) {
+        res.render('auth/signup', {
+            title: "Registratsiya",
+            url: process.env.url
+        })
+    }
 }
 
 //@route    POST  /auth/signup 
@@ -73,10 +77,20 @@ const LoginUSer = async (req, res) => {
     }
 }
 
+//@route    Get  /auth/logout 
+//@desc     Logout  users to Website
+//access    Private
+
+const logOut = (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/')
+    })
+}
 
 module.exports = {
     getLoginPage,
     getRegisterPage,
     registerNewUser,
-    LoginUSer
+    LoginUSer,
+    logOut
 }

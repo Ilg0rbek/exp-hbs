@@ -1,6 +1,7 @@
 const { v4 } = require('uuid')
 const { addNewPosterToDB, getAllPosters, getPosterById, editPosterById, deletePosterById } = require('../db/posters')
 const Poster = require('../models/posterModels')
+const User = require('../models/userModel')
 
 //@route    GET  /posters
 //@desc     Get posters page
@@ -26,7 +27,9 @@ const getPostersPage = async (req, res) => {
 const addNewPosterPage = (req, res) => {
     res.render('poster/add-poster', {
         title: "Yangi elon qoshish",
-        url: process.env.url
+        url: process.env.url,
+        user: req.session.user
+
     })
 }
 
@@ -35,16 +38,30 @@ const addNewPosterPage = (req, res) => {
 //@access   Public
 const addNewPoster = async (req, res) => {
     try {
-        const poster = {
+        // const poster = {
+        //     title: req.body.title,
+        //     amount: req.body.amount,
+        //     region: req.body.region,
+        //     description: req.body.description,
+        //     image: 'uploads/' + req.file.filename
+        // }
+        // await addNewPosterToDB(poster)
+        const newPoster = await Poster({
             title: req.body.title,
             amount: req.body.amount,
             region: req.body.region,
             description: req.body.description,
             image: 'uploads/' + req.file.filename
-        }
-        // await addNewPosterToDB(poster)
-        await Poster.create(poster)
-        res.redirect('/posters')
+        })
+        await User.findByIdAndUpdate(req.session.user._id,
+            { $push: { posters: newPoster._id } },
+            { new: true, upsert: true }
+        )
+        await newPoster.save((err, posterSaved) => {
+            if (err) throw err
+            const posterId = posterSaved._id
+            res.redirect('/posters/' + posterId)
+        })
     } catch (error) {
         console.log(error.message)
     }
@@ -57,11 +74,15 @@ const addNewPoster = async (req, res) => {
 const getOnePoster = async (req, res) => {
     try {
         // const poster = await getPosterById(req.params.id)
-        const poster = await Poster.findByIdAndUpdate(req.params.id, { $inc: { visits: 1 } }, { new: true }).lean()
+        const poster = await Poster
+            .findByIdAndUpdate(req.params.id, { $inc: { visits: 1 } }, { new: true })
+            .lean()
+
         res.render('poster/one', {
             title: poster.title,
             url: process.env.url,
-            poster
+            poster,
+            user: req.session.user
         })
     } catch (err) {
         console.log(err)
