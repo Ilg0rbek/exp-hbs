@@ -7,6 +7,7 @@ const path = require('path');
 const homeRoutes = require('./routes/homeRoutes')
 const postersRoutes = require('./routes/posterRoutes')
 const authRoutes = require('./Routes/authRoutes')
+const userRoutes = require('./Routes/userRoutes')
 const connectDB = require('./config/db')
 
 //config dotenv 
@@ -49,6 +50,7 @@ app.use(session({
 app.use('/', homeRoutes)
 app.use('/posters', postersRoutes)
 app.use('/auth', authRoutes)
+app.use('/profile', userRoutes)
 
 const PORT = process.env.PORT || 4000
 

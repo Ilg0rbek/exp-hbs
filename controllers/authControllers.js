@@ -1,4 +1,5 @@
 const User = require('../models/userModel')
+const bcrypt = require('bcryptjs')
 
 //@route    GET  /auth/login 
 //@desc     Get login page
@@ -26,6 +27,8 @@ const getRegisterPage = (req, res) => {
 const registerNewUser = async (req, res) => {
     try {
         const { email, username, phone, password, password2 } = req.body
+        const salt = await bcrypt.genSalt(12)
+        const hashedpassword = await bcrypt.hash(password, salt)
         const userExist = await User.findOne({ email })
         if (userExist) {
             return res.redirect('/auth/signup')
@@ -37,7 +40,7 @@ const registerNewUser = async (req, res) => {
             email,
             username,
             phone,
-            password
+            password: hashedpassword
         })
         return res.redirect('/auth/login')
     } catch (error) {
@@ -51,7 +54,7 @@ const LoginUSer = async (req, res) => {
     try {
         const userExist = await User.findOne({ email: req.body.email })
         if (userExist) {
-            const matchPassword = userExist.password === req.body.password
+            const matchPassword = await bcrypt.compare(req.body.password, userExist.password)
             if (matchPassword) {
                 req.session.user = userExist
                 req.session.isLogged = true
