@@ -1,13 +1,16 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const { engine } = require('express-handlebars');
+const Handlebars = require('handlebars')
 const session = require('express-session')
 const mongostore = require('connect-mongodb-session')(session)
 const path = require('path');
+const flash = require('connect-flash')
 const homeRoutes = require('./routes/homeRoutes')
 const postersRoutes = require('./routes/posterRoutes')
 const authRoutes = require('./Routes/authRoutes')
 const userRoutes = require('./Routes/userRoutes')
+const hbsHalpers = require('./utils/hbsHalpers')
 const connectDB = require('./config/db')
 
 //config dotenv 
@@ -21,6 +24,7 @@ const store = new mongostore({
     uri: process.env.MONGO_URI
 })
 
+app.use(flash())
 
 //connec DB
 connectDB()
@@ -37,6 +41,10 @@ app.use(express.static(path.join('public')))
 //body parser
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+//register handlebars halper
+hbsHalpers(Handlebars)
+
 
 //session configuratsions
 app.use(session({

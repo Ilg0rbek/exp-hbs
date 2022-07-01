@@ -7,16 +7,22 @@ const User = require('../models/userModel')
 
 const getProfilePage = async (req, res) => {
     try {
-        const user = await User
+        const userProfile = await User
             .findOne({ username: req.params.username })
             .populate('posters')
             .lean()
-        if (!user) throw new Error("Bunday foydalanuvchi yoq")
+        if (!userProfile) throw new Error("Bunday foydalanuvchi yoq")
+        let isMe = false
+        if (req.session.user) {
+            isMe = userProfile._id == req.session.user._id.toString()
+        }
         res.render('profile/profile', {
-            title: `${user.username}`,
+            title: `${userProfile.username}`,
             url: process.env.url,
-            user,
-            posters: user.posters,
+            user: req.session.user,
+            userProfile,
+            isMe,
+            posters: userProfile.posters,
             isAuth: req.session.isLogged
         })
     } catch (err) {

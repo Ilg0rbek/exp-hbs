@@ -1,9 +1,10 @@
 <div class="container mt-5">
     <div class="card my-5 py-4 text-center border-0">
         <div class="card-body">
-            <form class="row g-3">
+            <form class="row g-3" action="/posters" method="get">
                 <label for="search" class="visually-hidden">Qidiruv</label>
-                <input type="text" class="form-control form-control-lg" id="search" placeholder="E'lonlar qidiruvi...">
+                <input type="text" name="search" class="form-control form-control-lg" id="search" value={{querySearch}}
+                    placeholder="E'lonlar qidiruvi...">
                 <h3>Filtrlash</h3>
                 <div class="search-filter">
                     <div class="search-item m-2">
@@ -63,8 +64,8 @@
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-3">
-                            <a href="#" class="poster-link"><img width="300" height="250" src="{{../url}}{{image}}"
-                                    alt={{title}} /></a>
+                            <a href="/posters/{{_id}}" class="poster-link"><img width="300" height="250"
+                                    src="{{../url}}{{image}}" alt={{title}} /></a>
                         </div>
                         <div class="col-md-8 offset-1">
                             <div class="card-body flex-poster-body">

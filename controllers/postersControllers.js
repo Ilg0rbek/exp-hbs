@@ -9,11 +9,21 @@ const User = require('../models/userModel')
 const getPostersPage = async (req, res) => {
     // const posters = await getAllPosters()
     try {
-        const posters = await (await Poster.find().lean()).reverse()
+        if (req.query.search) {
+            const { search } = req.query
+            const posters = await Poster.find({ title: search }).lean()
+            return res.status(200).render('poster/searchResults', {
+                title: 'Search result',
+                querySearch: req.query.search,
+                url: process.env.url,
+                posters
+            })
+        }
+        const posters = await Poster.find().lean()
         res.render('poster/posters', {
             title: 'Posters page',
             url: process.env.url,
-            posters
+            posters: posters.reverse()
         })
     }
     catch (err) {
@@ -34,6 +44,7 @@ const addNewPosterPage = (req, res) => {
 }
 
 //@route    POST 
+
 //@desc     Add new poster
 //@access   Public
 const addNewPoster = async (req, res) => {
@@ -51,7 +62,8 @@ const addNewPoster = async (req, res) => {
             amount: req.body.amount,
             region: req.body.region,
             description: req.body.description,
-            image: 'uploads/' + req.file.filename
+            image: 'uploads/' + req.file.filename,
+            auhtor: req.session.user._id
         })
         await User.findByIdAndUpdate(req.session.user._id,
             { $push: { posters: newPoster._id } },
@@ -75,13 +87,19 @@ const getOnePoster = async (req, res) => {
     try {
         // const poster = await getPosterById(req.params.id)
         const poster = await Poster
-            .findByIdAndUpdate(req.params.id, { $inc: { visits: 1 } }, { new: true })
+            .findByIdAndUpdate(
+                req.params.id,
+                { $inc: { visits: 1 } },
+                { new: true }
+            )
+            .populate('auhtor')
             .lean()
 
         res.render('poster/one', {
             title: poster.title,
             url: process.env.url,
             poster,
+            auhtor: poster.auhtor,
             user: req.session.user
         })
     } catch (err) {

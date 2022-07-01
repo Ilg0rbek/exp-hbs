@@ -45,15 +45,16 @@
                      <img src="https://cdn.pixabay.com/photo/2013/07/13/10/07/man-156584__340.png"
                         class="rounded-circle img-fluid" alt="Cinque Terre" style="width: 100px; height: 100px">
                      <div class="d-flex flex-column">
-                        <a href="#">
-                           <h5>Eshmatov Toshmat</h5>
+                        <a href="/profile/{{auhtor.username}}">
+                           <h5>{{auhtor.username}}</h5>
                         </a>
-                        <p>Saytda: 01.01.2021 dan beri</p>
-                        <p>E'lonlar soni: 20 ta</p>
+                        <p>Saytda: {{formatDate auhtor.createdAt}} dan beri</p>
+                        <p>E'lonlar soni: {{auhtor.posters.length}} ta</p>
                      </div>
                   </div>
-                  <a href="#" type="button" class="btn btn-outline-secondary">+998911234567</a>
-                  <a href="#" type="button" class="btn mt-3 btn-success">Muallifning boshqa e'lonlari</a>
+                  <a href="#" type="button" class="btn btn-outline-secondary">{{auhtor.phone}}</a>
+                  <a href="/profile/{{auhtor.username}}" type="button" class="btn mt-3 btn-success">Muallifning boshqa
+                     e'lonlari</a>
                   <a href="/posters/{{poster._id}}/edit" type="button" class="btn mt-3 btn-warning">E`loni
                      o`zgartirish</a>
                   <form action="/posters/{{poster._id}}/delete" method="post">
