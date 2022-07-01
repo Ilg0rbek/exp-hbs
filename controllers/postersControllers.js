@@ -2,6 +2,7 @@ const { v4 } = require('uuid')
 const { addNewPosterToDB, getAllPosters, getPosterById, editPosterById, deletePosterById } = require('../db/posters')
 const Poster = require('../models/posterModels')
 const User = require('../models/userModel')
+const filtring = require('../utils/filtring')
 
 //@route    GET  /posters
 //@desc     Get posters page
@@ -19,7 +20,25 @@ const getPostersPage = async (req, res) => {
                 posters
             })
         }
-        const posters = await Poster.find().lean()
+        if (JSON.stringify(req.query) !== JSON.stringify({})) {
+            // $gte , $lte, $gt , $lt
+            const { category, from, to, region } = req.query
+            const filtrings = filtring(category, from, to, region)
+            const posters = await Poster
+                .find(filtrings)
+                .lean()
+            return res.render('poster/searchResults', {
+                title: 'Filter result',
+                querySearch: req.query.search,
+                url: process.env.url,
+                posters
+            })
+        }
+        const posters = await Poster
+            .find()
+            .skip(4)
+            .limit(2)
+            .lean()
         res.render('poster/posters', {
             title: 'Posters page',
             url: process.env.url,
