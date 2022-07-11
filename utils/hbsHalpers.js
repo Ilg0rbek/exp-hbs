@@ -6,5 +6,7 @@ const hbsHalpers = (handlebars) => {
             moment(date).format('DD.MM.YYYY').toUpperCase()
         )
     })
+
+    handlebars.registerHelper('paginate', require('handlebars-paginate'))
 }
 module.exports = hbsHalpers

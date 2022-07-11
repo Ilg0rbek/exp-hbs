@@ -9,6 +9,16 @@ const filtring = require('../utils/filtring')
 //access    Public
 const getPostersPage = async (req, res) => {
     // const posters = await getAllPosters()
+
+    const pageLimit = 10;
+    const limit = parseInt(req.query.limit)
+    const page = parseInt(req.query.page)
+    const total = await Poster.countDocuments()
+
+    if (req.url === '/') {
+        return res.redirect(`?page=1&limit${pageLimit}`)
+    }
+
     try {
         if (req.query.search) {
             const { search } = req.query
@@ -36,8 +46,6 @@ const getPostersPage = async (req, res) => {
         }
         const posters = await Poster
             .find()
-            .skip(4)
-            .limit(2)
             .lean()
         res.render('poster/posters', {
             title: 'Posters page',
